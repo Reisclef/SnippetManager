@@ -20,6 +20,29 @@ namespace SnippetManager {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            
+        }
+
+        private void saveMenuItem_Click(object sender, RoutedEventArgs e) {
+            SnippetXML xml = new SnippetXML(SetHeaderInfo());
+
+            xml.Xml.Save(System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\Documents\\test.snippet");
+        }
+
+        private HeaderInfo SetHeaderInfo() {
+            HeaderInfo info = new HeaderInfo();
+
+            info.Title = titleTextBox.Text;
+            info.Description = descriptionTextBox.Text;
+            info.Author = authorTextBox.Text;
+            if (expansionRadioButton.IsChecked ?? false) {
+                info.SnippetType = "Expansion";
+            }
+            else {
+                info.SnippetType = "SurroundsWith";
+            }
+
+            return info;
         }
     }
 }

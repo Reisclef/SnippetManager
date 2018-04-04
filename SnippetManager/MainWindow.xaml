@@ -13,7 +13,7 @@
                 <MenuItem x:Name="fileMenuItem" Header="_File">
                     <MenuItem x:Name="newMenuItem" Header="_New Snippet"/>
                     <MenuItem x:Name="openMenuItem" Header="_Open..."/>
-                    <MenuItem x:Name="saveMenuItem" Header="_Save..."/>
+                    <MenuItem x:Name="saveMenuItem" Header="_Save..." Click="saveMenuItem_Click"/>
                     <MenuItem x:Name="quitMenuItem" Header="_Quit"/>
                 </MenuItem>
                 <MenuItem x:Name="settingsMenuItem" Header="_Settings">
@@ -29,12 +29,12 @@
             </FlowDocument>
         </RichTextBox>
         <Label x:Name="sqlLabel" Content="SQL:" HorizontalAlignment="Left" Margin="30,160,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148"/>
-        <Label x:Name="authorLabel" Content="Author:" HorizontalAlignment="Left" Margin="280,45,0,0" VerticalAlignment="Top" Width="48"/>
         <TextBox x:Name="titleTextBox" HorizontalAlignment="Left" Height="23" Margin="67,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174"/>
         <Label x:Name="titleLabel" Content="Title:" HorizontalAlignment="Left" Margin="30,45,0,0" VerticalAlignment="Top" Width="37"/>
-        <TextBox x:Name="titleTextBox_Copy" HorizontalAlignment="Left" Height="23" Margin="109,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367"/>
-        <Label x:Name="titleLabel_Copy" Content="Description:" HorizontalAlignment="Left" Margin="30,86,0,0" VerticalAlignment="Top" Width="79"/>
+        <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148"/>
+        <Label x:Name="authorLabel" Content="Author:" HorizontalAlignment="Left" Margin="280,45,0,0" VerticalAlignment="Top" Width="48"/>
+        <TextBox x:Name="descriptionTextBox" HorizontalAlignment="Left" Height="23" Margin="109,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367"/>
+        <Label x:Name="descriptionLabel" Content="Description:" HorizontalAlignment="Left" Margin="30,86,0,0" VerticalAlignment="Top" Width="79"/>
         <RadioButton x:Name="expansionRadioButton" Content="Expansion" HorizontalAlignment="Left" Margin="146,132,0,0" VerticalAlignment="Top" IsChecked="True"/>
         <RadioButton x:Name="surroundsWithRadioButton" Content="SurroundsWith" HorizontalAlignment="Left" Margin="302,132,0,0" VerticalAlignment="Top"/>
         <Label x:Name="typeLabel" Content="Type:" HorizontalAlignment="Left" Margin="30,125,0,0" VerticalAlignment="Top"/>
