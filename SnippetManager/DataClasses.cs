@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SnippetManager
 {
     class HeaderInfo
     {
-        private string title;
+        private string title = "";
         public string Title {
             get {
                 return title;
@@ -18,7 +19,7 @@ namespace SnippetManager
             }
         }
 
-        private string description;
+        private string description = "";
         public string Description {
             get {
                 return description;
@@ -28,7 +29,7 @@ namespace SnippetManager
             }
         }
 
-        private string author;
+        private string author = "";
         public string Author {
             get {
                 return author;
@@ -38,7 +39,7 @@ namespace SnippetManager
             }
         }
 
-        private string snippetType;
+        private string snippetType = "";
         public string SnippetType {
             get {
                 return snippetType;
@@ -50,15 +51,31 @@ namespace SnippetManager
             }
         }
 
-        public HeaderInfo() {
-            title = "";
-            description = "";
-            author = "";
-            snippetType = "";
+
+        public HeaderInfo SetHeaderData(string title, string author, string description, string type) {
+            Title = title;
+            Author = author;
+            Description = description;
+            SnippetType = type;
+
+            return this;
         }
     }
 
     class SnippetInfo {
+        private string code = "";
+        public string Code {
+            get {
+                return code;
+            }
+            set {
+                code = value;
+            }
+        }
 
+        public SnippetInfo SetCode(string codeFromRichTextBox) {
+            code = codeFromRichTextBox;
+            return this;
+        }
     }
 }

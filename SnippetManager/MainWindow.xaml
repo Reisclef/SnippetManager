@@ -11,33 +11,33 @@
         <DockPanel Margin="0,0,-0,295">
             <Menu DockPanel.Dock="Top">
                 <MenuItem x:Name="fileMenuItem" Header="_File">
-                    <MenuItem x:Name="newMenuItem" Header="_New Snippet"/>
-                    <MenuItem x:Name="openMenuItem" Header="_Open..."/>
+                    <MenuItem x:Name="newMenuItem" Header="_New Snippet" Click="newMenuItem_Click"/>
+                    <MenuItem x:Name="openMenuItem" Header="_Open..." Click="openMenuItem_Click"/>
                     <MenuItem x:Name="saveMenuItem" Header="_Save..." Click="saveMenuItem_Click"/>
-                    <MenuItem x:Name="quitMenuItem" Header="_Quit"/>
+                    <MenuItem x:Name="quitMenuItem" Header="_Quit" Click="quitMenuItem_Click"/>
                 </MenuItem>
                 <MenuItem x:Name="settingsMenuItem" Header="_Settings">
                     <MenuItem Header="_Defaults"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <RichTextBox x:Name="sqlRichTextBox" HorizontalAlignment="Left" Height="112" Margin="30,186,0,0" VerticalAlignment="Top" Width="446">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text=""/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        <Label x:Name="sqlLabel" Content="SQL:" HorizontalAlignment="Left" Margin="30,160,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="titleTextBox" HorizontalAlignment="Left" Height="23" Margin="67,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174"/>
+        <TextBox x:Name="titleTextBox" HorizontalAlignment="Left" Height="23" Margin="67,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" TextChanged="titleTextBox_TextChanged"/>
         <Label x:Name="titleLabel" Content="Title:" HorizontalAlignment="Left" Margin="30,45,0,0" VerticalAlignment="Top" Width="37"/>
-        <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148"/>
+        <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="authorTextBox_TextChanged"/>
         <Label x:Name="authorLabel" Content="Author:" HorizontalAlignment="Left" Margin="280,45,0,0" VerticalAlignment="Top" Width="48"/>
-        <TextBox x:Name="descriptionTextBox" HorizontalAlignment="Left" Height="23" Margin="109,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367"/>
+        <TextBox x:Name="descriptionTextBox" HorizontalAlignment="Left" Height="23" Margin="109,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367" TextChanged="descriptionTextBox_TextChanged"/>
         <Label x:Name="descriptionLabel" Content="Description:" HorizontalAlignment="Left" Margin="30,86,0,0" VerticalAlignment="Top" Width="79"/>
         <RadioButton x:Name="expansionRadioButton" Content="Expansion" HorizontalAlignment="Left" Margin="146,132,0,0" VerticalAlignment="Top" IsChecked="True"/>
         <RadioButton x:Name="surroundsWithRadioButton" Content="SurroundsWith" HorizontalAlignment="Left" Margin="302,132,0,0" VerticalAlignment="Top"/>
         <Label x:Name="typeLabel" Content="Type:" HorizontalAlignment="Left" Margin="30,125,0,0" VerticalAlignment="Top"/>
         <Button x:Name="manageLiteralsButton" Content="Manage Literals" HorizontalAlignment="Left" Margin="385,163,0,0" VerticalAlignment="Top" Width="91"/>
+        <Label x:Name="codeLabel" Content="Code:" HorizontalAlignment="Left" Margin="30,160,0,0" VerticalAlignment="Top"/>
+        <RichTextBox x:Name="codeRichTextBox" HorizontalAlignment="Left" Height="112" Margin="30,186,0,0" VerticalAlignment="Top" Width="446" TextChanged="codeRichTextBox_TextChanged">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>    
     </Grid>
 </Window>

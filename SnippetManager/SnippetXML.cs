@@ -19,14 +19,15 @@ namespace SnippetManager
         private XNamespace MicrosoftNs = "http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet";
 
         //Default constructor called when no data will populate it
-        public SnippetXML() : this(null) {
+        public SnippetXML(XDocument doc) {
+            xml = doc;
         }
 
-        public SnippetXML(HeaderInfo headerInfo) {
+        public SnippetXML(HeaderInfo headerInfo, SnippetInfo snippetInfo) {
             xml = new XDocument(new XDeclaration("1.0", "utf-8", null));
             XElement codeSnippets = new XElement(MicrosoftNs + "CodeSnippets");
             codeSnippets.Add(BuildLocDefinition());
-            codeSnippets.Add(BuildSnippet(headerInfo));
+            codeSnippets.Add(BuildSnippet(headerInfo, snippetInfo));
             xml.Add(codeSnippets);
         }
 
@@ -44,7 +45,7 @@ namespace SnippetManager
             return locDefinition;
         }
 
-        private XElement BuildSnippet(HeaderInfo headerInfo) {
+        private XElement BuildSnippet(HeaderInfo headerInfo, SnippetInfo snippetInfo) {
             XElement codeSnippet = new XElement(MicrosoftNs + "CodeSnippet", new XAttribute("Format", "1.0.0"));
 
             XElement header = new XElement(MicrosoftNs + "Header");
@@ -60,10 +61,33 @@ namespace SnippetManager
 
             XElement snippet = new XElement(MicrosoftNs + "Snippet");
             snippet.Add(new XElement(MicrosoftNs + "Declarations") { Value = "" });
-            snippet.Add(new XElement(MicrosoftNs + "Code", new XAttribute("Language", "SQL")){ Value = "" });
+            XElement code = new XElement(MicrosoftNs + "Code", new XAttribute("Language", "SQL"));
+            code.ReplaceNodes(new XCData(snippetInfo.Code));
+            snippet.Add(code);
             codeSnippet.Add(snippet);
 
             return codeSnippet;
+        }
+
+        public HeaderInfo GetHeaderDataFromFile() {
+            HeaderInfo headerInfo = new HeaderInfo();
+
+            XElement header = xml.Descendants(MicrosoftNs + "Header").First();
+
+            headerInfo.Title = header.Element(MicrosoftNs + "Title").Value;
+            headerInfo.Author = header.Element(MicrosoftNs + "Author").Value;
+            headerInfo.Description = header.Element(MicrosoftNs + "Description").Value;
+            headerInfo.SnippetType = header.Descendants(MicrosoftNs + "SnippetType").First().Value;
+
+            return headerInfo;
+        }
+
+        public SnippetInfo GetSnippetInfoFromFile() {
+            SnippetInfo snippetInfo = new SnippetInfo();
+
+            snippetInfo.Code = xml.Descendants(MicrosoftNs + "Code").First().Value;
+
+            return snippetInfo;
         }
     }
 }
