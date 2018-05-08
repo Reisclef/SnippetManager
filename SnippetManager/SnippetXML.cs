@@ -87,6 +87,14 @@ namespace SnippetManager
 
             snippetInfo.Code = xml.Descendants(MicrosoftNs + "Code").First().Value;
 
+            XElement declarations = xml.Descendants(MicrosoftNs + "Declarations").First();
+
+            IEnumerable<XElement> literalXML = declarations.Descendants(MicrosoftNs + "Literal");
+
+            foreach (XElement literal in literalXML) {
+                snippetInfo.Literals.Add(new Literal() { Id = literal.Element(MicrosoftNs + "ID").Value, ToolTip = literal.Element(MicrosoftNs + "ToolTip").Value, DefaultText = literal.Element(MicrosoftNs + "Default").Value });
+            }
+
             return snippetInfo;
         }
     }

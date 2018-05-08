@@ -5,11 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnippetManager"
         mc:Ignorable="d"
-        Title="Snippet Manager" Height="350" Width="525">
+        Title="Snippet Manager" Height="443.867" Width="525">
     <Grid>
-
-        <DockPanel Margin="0,0,-0,295">
-            <Menu DockPanel.Dock="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="titleTextBox" HorizontalAlignment="Left" Height="23" Margin="67,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" TextChanged="titleTextBox_TextChanged"/>
+        <Label x:Name="titleLabel" Content="Title:" HorizontalAlignment="Left" Margin="30,42,0,0" VerticalAlignment="Top" Width="37" Height="26"/>
+        <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="authorTextBox_TextChanged"/>
+        <Label x:Name="authorLabel" Content="Author:" HorizontalAlignment="Left" Margin="280,42,0,0" VerticalAlignment="Top" Width="48" Height="26"/>
+        <TextBox x:Name="descriptionTextBox" HorizontalAlignment="Left" Height="23" Margin="109,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367" TextChanged="descriptionTextBox_TextChanged"/>
+        <Label x:Name="descriptionLabel" Content="Description:" HorizontalAlignment="Left" Margin="30,83,0,0" VerticalAlignment="Top" Width="79" Height="26"/>
+        <RadioButton x:Name="expansionRadioButton" Content="Expansion" HorizontalAlignment="Left" Margin="146,129,0,0" VerticalAlignment="Top" IsChecked="True" Height="15" Width="72"/>
+        <RadioButton x:Name="surroundsWithRadioButton" Content="SurroundsWith" HorizontalAlignment="Left" Margin="302,129,0,0" VerticalAlignment="Top" Height="15" Width="98"/>
+        <Label x:Name="typeLabel" Content="Type:" HorizontalAlignment="Left" Margin="30,122,0,0" VerticalAlignment="Top" Height="26" Width="37"/>
+        <Label x:Name="codeLabel" Content="Code:" HorizontalAlignment="Left" Margin="30,157,0,0" VerticalAlignment="Top" Height="26" Width="41"/>
+        <RichTextBox x:Name="codeRichTextBox" HorizontalAlignment="Left" Height="112" Margin="30,183,0,0" VerticalAlignment="Top" Width="446" TextChanged="codeRichTextBox_TextChanged" LostFocus="codeRichTextBox_LostFocus">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <DockPanel Margin="0,0,-0.333,0.333">
+            <DataGrid Name="literalsDataGrid" AutoGenerateColumns="False" Margin="0,309,0,0.4" Width="450">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="true" Width="*" />
+                    <DataGridTextColumn Header="ToolTip" Binding="{Binding ToolTip}" Width="*" />
+                    <DataGridTextColumn Header="DefaultText" Binding="{Binding DefaultText}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+        <Grid HorizontalAlignment="Left" Height="22" Margin="0,3,-0.333,0" VerticalAlignment="Top" Width="519">
+            <Menu HorizontalAlignment="Left" Width="519"
+                >
                 <MenuItem x:Name="fileMenuItem" Header="_File">
                     <MenuItem x:Name="newMenuItem" Header="_New Snippet" Click="newMenuItem_Click"/>
                     <MenuItem x:Name="openMenuItem" Header="_Open..." Click="openMenuItem_Click"/>
@@ -20,24 +49,6 @@
                     <MenuItem Header="_Defaults"/>
                 </MenuItem>
             </Menu>
-        </DockPanel>
-        <TextBox x:Name="titleTextBox" HorizontalAlignment="Left" Height="23" Margin="67,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" TextChanged="titleTextBox_TextChanged"/>
-        <Label x:Name="titleLabel" Content="Title:" HorizontalAlignment="Left" Margin="30,45,0,0" VerticalAlignment="Top" Width="37"/>
-        <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="authorTextBox_TextChanged"/>
-        <Label x:Name="authorLabel" Content="Author:" HorizontalAlignment="Left" Margin="280,45,0,0" VerticalAlignment="Top" Width="48"/>
-        <TextBox x:Name="descriptionTextBox" HorizontalAlignment="Left" Height="23" Margin="109,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367" TextChanged="descriptionTextBox_TextChanged"/>
-        <Label x:Name="descriptionLabel" Content="Description:" HorizontalAlignment="Left" Margin="30,86,0,0" VerticalAlignment="Top" Width="79"/>
-        <RadioButton x:Name="expansionRadioButton" Content="Expansion" HorizontalAlignment="Left" Margin="146,132,0,0" VerticalAlignment="Top" IsChecked="True"/>
-        <RadioButton x:Name="surroundsWithRadioButton" Content="SurroundsWith" HorizontalAlignment="Left" Margin="302,132,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="typeLabel" Content="Type:" HorizontalAlignment="Left" Margin="30,125,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="manageLiteralsButton" Content="Manage Literals" HorizontalAlignment="Left" Margin="385,163,0,0" VerticalAlignment="Top" Width="91"/>
-        <Label x:Name="codeLabel" Content="Code:" HorizontalAlignment="Left" Margin="30,160,0,0" VerticalAlignment="Top"/>
-        <RichTextBox x:Name="codeRichTextBox" HorizontalAlignment="Left" Height="112" Margin="30,186,0,0" VerticalAlignment="Top" Width="446" TextChanged="codeRichTextBox_TextChanged">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text=""/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>    
+        </Grid>
     </Grid>
 </Window>

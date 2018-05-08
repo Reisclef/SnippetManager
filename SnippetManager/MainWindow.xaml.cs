@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,13 @@ namespace SnippetManager {
     /// </summary>
     public partial class MainWindow : Window {
 
-        private bool changed = false;
+        private bool Changed = false;
+
+        List<Literal> Literals = new List<Literal>();
 
         public MainWindow() {
             InitializeComponent();
-            
+            literalsDataGrid.ItemsSource = Literals; 
         }
 
         #region ClickEvents
@@ -61,13 +64,13 @@ namespace SnippetManager {
         }
 
         private void newMenuItem_Click(object sender, RoutedEventArgs e) {
-            if (changed && MessageBox.Show("Create new snippet and lose all current changes?", "Confirm New", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
+            if (Changed && MessageBox.Show("Create new snippet and lose all current changes?", "Confirm New", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
                 titleTextBox.Text = "";
                 descriptionTextBox.Text = "";
                 authorTextBox.Text = "";
                 expansionRadioButton.IsChecked = true;
                 codeRichTextBox.Document.Blocks.Clear();
-                changed = false;
+                Changed = false;
             }
         }
 
@@ -93,6 +96,7 @@ namespace SnippetManager {
                     SnippetInfo snippetInfo = xdoc.GetSnippetInfoFromFile();
                     codeRichTextBox.Document.Blocks.Clear();
                     codeRichTextBox.Document.Blocks.Add(new Paragraph(new Run(snippetInfo.Code)));
+                    literalsDataGrid.ItemsSource = snippetInfo.Literals;
                 }
             }
             catch (System.IO.IOException ex) {
@@ -114,21 +118,21 @@ namespace SnippetManager {
         #region TextChangedEvents
 
         private void titleTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            changed = true;
+            Changed = true;
         }
 
         private void authorTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            changed = true;
+            Changed = true;
         }
 
         private void descriptionTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            changed = true;
+            Changed = true;
         }
 
         private void codeRichTextBox_TextChanged(object sender, TextChangedEventArgs e) {
             //The RichTextBox fires a TextChanged event when window is loaded, make sure it's visible 
             if (codeRichTextBox.IsVisible) {
-                changed = true;
+                Changed = true;
             }
             
         }
@@ -147,5 +151,12 @@ namespace SnippetManager {
         }
 
         #endregion
+
+        private void codeRichTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //Refresh the literals with any new literals (based on a text search of $literal$)
+
+            //Prompt the user for any literals being removed
+        }
     }
 }
