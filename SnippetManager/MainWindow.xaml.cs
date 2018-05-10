@@ -23,11 +23,10 @@ namespace SnippetManager {
 
         private bool Changed = false;
 
-        List<Literal> Literals = new List<Literal>();
+        ObservableCollection<Literal> Literals = new ObservableCollection<Literal>();
 
         public MainWindow() {
             InitializeComponent();
-            literalsDataGrid.ItemsSource = Literals; 
         }
 
         #region ClickEvents
@@ -39,7 +38,9 @@ namespace SnippetManager {
                 descriptionTextBox.Text,
                 GetSelectedRadioButton()
                 ),
-                new SnippetInfo().SetCode(new TextRange(codeRichTextBox.Document.ContentStart, codeRichTextBox.Document.ContentEnd).Text)
+                new SnippetInfo()
+                .SetDeclarations(literalsDataGrid.ItemsSource.Cast<Literal>())
+                .SetCode(GetRichTextBoxText())
             );
 
             try {
@@ -78,8 +79,9 @@ namespace SnippetManager {
 
             //Open the XML Document, and attempt to populate the GUI with its values
             try {
-                var dialog = new Microsoft.Win32.OpenFileDialog();
-                dialog.Filter = "Code Snippets (.snippet)|*.snippet";
+                var dialog = new Microsoft.Win32.OpenFileDialog {
+                    Filter = "Code Snippets (.snippet)|*.snippet"
+                };
                 if (dialog.ShowDialog() == true) {
                     SnippetXML xdoc = new SnippetXML(XDocument.Load(dialog.FileName));
                     HeaderInfo headerInfo = xdoc.GetHeaderDataFromFile();
@@ -150,13 +152,69 @@ namespace SnippetManager {
             }
         }
 
+        private string GetRichTextBoxText() {
+            return new TextRange(codeRichTextBox.Document.ContentStart, codeRichTextBox.Document.ContentEnd).Text;
+        }
+
         #endregion
 
-        private void codeRichTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
+        private void codeRichTextBox_LostFocus(object sender, RoutedEventArgs e) {
             //Refresh the literals with any new literals (based on a text search of $literal$)
+            String richTextBoxText = GetRichTextBoxText();
 
-            //Prompt the user for any literals being removed
+            List<int> dollarIndexes = new List<int>();
+
+            for (int i = 0; i < richTextBoxText.Length; i++) {
+                if (richTextBoxText[i] == '$') {
+                    dollarIndexes.Add(i);
+                }
+            }
+
+            //If the number is odd, inform the user there's an odd number, and take no further action
+            if(dollarIndexes.Count % 2 != 0) {
+                MessageBox.Show("Please check your Text. There is an odd number of '$' symbols.");
+            }
+            else {
+                //Take no action if the count of dollar signs is 0.
+                if(dollarIndexes.Count == 0) {
+                    //return;
+                }
+
+                //Prompt the user for any literals being removed
+                List<string> currentLiterals = new List<string>();
+                int index = 0;
+                while(index < dollarIndexes.Count) {
+                    //Find all of the IDs (the words between the $ signs
+                    int start = dollarIndexes[index];
+                    index++;
+                    int length = dollarIndexes[index] - start;
+                    string literalId = richTextBoxText.Substring(start + 1, length - 1);
+                    currentLiterals.Add(literalId);
+                    index++;
+                }
+                List<string> gridLiterals = new List<string>();
+                    if (literalsDataGrid.ItemsSource != null) {
+                   gridLiterals = literalsDataGrid.ItemsSource.Cast<Literal>().Select(l => l.Id).ToList();
+                }
+
+                
+
+                List<string> toAdd = currentLiterals.Except(gridLiterals).ToList();
+                List<string> toRemove = gridLiterals.Except(currentLiterals).ToList();
+
+                foreach (string addedId in toAdd) {
+                    Literals.Add(new Literal() { Id = addedId });
+                }
+
+                foreach (string removedLiteral in toRemove) {
+                    MessageBoxResult result = MessageBox.Show($"Are you sure you wish to remove the literal {removedLiteral}?","Confirm Removal",MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.Yes) {
+                        Literals.Remove(Literals.Where(l => l.Id == removedLiteral).First());
+                    }
+                }
+
+                literalsDataGrid.ItemsSource = Literals;
+            }
         }
     }
 }

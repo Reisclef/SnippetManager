@@ -28,7 +28,7 @@
             </FlowDocument>
         </RichTextBox>
         <DockPanel Margin="0,0,-0.333,0.333">
-            <DataGrid Name="literalsDataGrid" AutoGenerateColumns="False" Margin="0,309,0,0.4" Width="450">
+            <DataGrid Name="literalsDataGrid" AutoGenerateColumns="False" Margin="0,309,0,0.4" Width="450" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="true" Width="*" />
                     <DataGridTextColumn Header="ToolTip" Binding="{Binding ToolTip}" Width="*" />

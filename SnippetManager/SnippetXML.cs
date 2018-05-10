@@ -60,7 +60,23 @@ namespace SnippetManager
             codeSnippet.Add(header);
 
             XElement snippet = new XElement(MicrosoftNs + "Snippet");
-            snippet.Add(new XElement(MicrosoftNs + "Declarations") { Value = "" });
+
+            XElement declarations = new XElement(MicrosoftNs + "Declarations") { Value = "" };
+
+            if (snippetInfo.Literals.Count > 0) {
+                foreach(Literal theLiteral in snippetInfo.Literals) {
+                    if (theLiteral.Id.Length > 0) {
+                        XElement literal = new XElement(MicrosoftNs + "Literal") { Value = "" };
+                        literal.Add(new XElement(MicrosoftNs + "ID") { Value = theLiteral.Id });
+                        literal.Add(new XElement(MicrosoftNs + "ToolTip") { Value = theLiteral.ToolTip });
+                        literal.Add(new XElement(MicrosoftNs + "Default") { Value = theLiteral.DefaultText });
+                        declarations.Add(literal);
+                    }
+                }
+            }
+
+            snippet.Add(declarations);
+
             XElement code = new XElement(MicrosoftNs + "Code", new XAttribute("Language", "SQL"));
             code.ReplaceNodes(new XCData(snippetInfo.Code));
             snippet.Add(code);

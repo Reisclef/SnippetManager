@@ -52,6 +52,11 @@ namespace SnippetManager
             code = codeFromRichTextBox;
             return this;
         }
+
+        internal SnippetInfo SetDeclarations(IEnumerable<Literal> literalData) {
+            literals = literalData.ToList();
+            return this;
+        }
     }
 
     class Literal {
