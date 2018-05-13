@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnippetManager"
         mc:Ignorable="d"
-        Title="Snippet Manager" Height="443.867" Width="525">
+        Title="Snippet Manager" Height="450" Width="525">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="36*"/>
+            <RowDefinition Height="180"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="titleTextBox" HorizontalAlignment="Left" Height="23" Margin="67,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" TextChanged="titleTextBox_TextChanged"/>
+        <TextBox x:Name="titleTextBox" Grid.Row="0" HorizontalAlignment="Left" Height="23" Margin="67,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" TextChanged="titleTextBox_TextChanged"/>
         <Label x:Name="titleLabel" Content="Title:" HorizontalAlignment="Left" Margin="30,42,0,0" VerticalAlignment="Top" Width="37" Height="26"/>
         <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="authorTextBox_TextChanged"/>
         <Label x:Name="authorLabel" Content="Author:" HorizontalAlignment="Left" Margin="280,42,0,0" VerticalAlignment="Top" Width="48" Height="26"/>
@@ -20,15 +22,15 @@
         <RadioButton x:Name="surroundsWithRadioButton" Content="SurroundsWith" HorizontalAlignment="Left" Margin="302,129,0,0" VerticalAlignment="Top" Height="15" Width="98"/>
         <Label x:Name="typeLabel" Content="Type:" HorizontalAlignment="Left" Margin="30,122,0,0" VerticalAlignment="Top" Height="26" Width="37"/>
         <Label x:Name="codeLabel" Content="Code:" HorizontalAlignment="Left" Margin="30,157,0,0" VerticalAlignment="Top" Height="26" Width="41"/>
-        <RichTextBox x:Name="codeRichTextBox" HorizontalAlignment="Left" Height="112" Margin="30,183,0,0" VerticalAlignment="Top" Width="446" TextChanged="codeRichTextBox_TextChanged" LostFocus="codeRichTextBox_LostFocus">
+        <RichTextBox x:Name="codeRichTextBox" Grid.Row="1" HorizontalAlignment="Left" Height="Auto" Margin="10,0,10,0" VerticalAlignment="Stretch" Width="Auto" VerticalContentAlignment="Stretch" TextChanged="codeRichTextBox_TextChanged" LostFocus="codeRichTextBox_LostFocus" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <DockPanel Margin="0,0,-0.333,0.333">
-            <DataGrid Name="literalsDataGrid" AutoGenerateColumns="False" Margin="0,309,0,0.4" Width="450" CanUserAddRows="False">
+        <DockPanel Margin="0,0,-0.333,0.333" Grid.Row="2">
+            <DataGrid Name="literalsDataGrid"  AutoGenerateColumns="False" Margin="0,0,0,0.4" Width="Auto" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="true" Width="*" />
                     <DataGridTextColumn Header="ToolTip" Binding="{Binding ToolTip}" Width="*" />
@@ -36,9 +38,8 @@
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
-        <Grid HorizontalAlignment="Left" Height="22" Margin="0,3,-0.333,0" VerticalAlignment="Top" Width="519">
-            <Menu HorizontalAlignment="Left" Width="519"
-                >
+        <Grid HorizontalAlignment="Left" Height="20" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top" MinWidth="520">
                 <MenuItem x:Name="fileMenuItem" Header="_File">
                     <MenuItem x:Name="newMenuItem" Header="_New Snippet" Click="newMenuItem_Click"/>
                     <MenuItem x:Name="openMenuItem" Header="_Open..." Click="openMenuItem_Click"/>
