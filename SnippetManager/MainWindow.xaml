@@ -5,24 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnippetManager"
         mc:Ignorable="d"
-        Title="Snippet Manager" Height="450" Width="525">
+        Title="Snippet Manager" Height="500" Width="525">
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="newMenuItem_Click" />
+        <CommandBinding Command="Open" Executed="openMenuItem_Click" />
+        <CommandBinding Command="Save" Executed="saveMenuItem_Click" />
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="180"/>
+            <RowDefinition Height="240"/>
             <RowDefinition Height="1.5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="titleTextBox" Grid.Row="0" HorizontalAlignment="Left" Height="23" Margin="67,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" TextChanged="titleTextBox_TextChanged"/>
+        <Grid HorizontalAlignment="Left" Height="20" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top" MinWidth="520">
+                <MenuItem x:Name="fileMenuItem" Header="_File">
+                    <MenuItem x:Name="newMenuItem" Header="_New Snippet" Click="newMenuItem_Click" Command="New"/>
+                    <MenuItem x:Name="openMenuItem" Header="_Open..." Click="openMenuItem_Click" Command="Open"/>
+                    <MenuItem x:Name="saveMenuItem" Header="_Save..." Click="saveMenuItem_Click" Command="Save"/>
+                    <MenuItem x:Name="quitMenuItem" Header="_Quit" Click="quitMenuItem_Click"/>
+                </MenuItem>
+                <MenuItem x:Name="settingsMenuItem" Header="_Settings">
+                    <MenuItem Header="_Defaults"/>
+                </MenuItem>
+            </Menu>
+        </Grid>
+        
         <Label x:Name="titleLabel" Content="Title:" HorizontalAlignment="Left" Margin="30,42,0,0" VerticalAlignment="Top" Width="37" Height="26"/>
-        <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="authorTextBox_TextChanged"/>
+        <TextBox x:Name="titleTextBox" Grid.Row="0" HorizontalAlignment="Left" Height="23" Margin="67,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" TextChanged="titleTextBox_TextChanged"/>
+        
         <Label x:Name="authorLabel" Content="Author:" HorizontalAlignment="Left" Margin="280,42,0,0" VerticalAlignment="Top" Width="48" Height="26"/>
-        <TextBox x:Name="descriptionTextBox" HorizontalAlignment="Left" Height="23" Margin="109,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367" TextChanged="descriptionTextBox_TextChanged"/>
+        <TextBox x:Name="authorTextBox" HorizontalAlignment="Left" Height="23" Margin="328,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" TextChanged="authorTextBox_TextChanged"/>
+        
         <Label x:Name="descriptionLabel" Content="Description:" HorizontalAlignment="Left" Margin="30,83,0,0" VerticalAlignment="Top" Width="79" Height="26"/>
+        <TextBox x:Name="descriptionTextBox" HorizontalAlignment="Left" Height="23" Margin="109,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="367" TextChanged="descriptionTextBox_TextChanged"/>
+        
+        <Label x:Name="typeLabel" Content="Type:" HorizontalAlignment="Left" Margin="30,122,0,0" VerticalAlignment="Top" Height="26" Width="37"/>
         <RadioButton x:Name="expansionRadioButton" Content="Expansion" HorizontalAlignment="Left" Margin="146,129,0,0" VerticalAlignment="Top" IsChecked="True" Height="15" Width="72"/>
         <RadioButton x:Name="surroundsWithRadioButton" Content="SurroundsWith" HorizontalAlignment="Left" Margin="302,129,0,0" VerticalAlignment="Top" Height="15" Width="98"/>
-        <Label x:Name="typeLabel" Content="Type:" HorizontalAlignment="Left" Margin="30,122,0,0" VerticalAlignment="Top" Height="26" Width="37"/>
-        <Label x:Name="codeLabel" Content="Code:" HorizontalAlignment="Left" Margin="30,157,0,0" VerticalAlignment="Top" Height="26" Width="41"/>
-        <RichTextBox x:Name="codeRichTextBox" Grid.Row="1" HorizontalAlignment="Left" Height="Auto" Margin="10,0,10,0" VerticalAlignment="Stretch" Width="Auto" VerticalContentAlignment="Stretch" TextChanged="codeRichTextBox_TextChanged" LostFocus="codeRichTextBox_LostFocus" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+        <Label Content="Language:" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="languageComboBox" HorizontalAlignment="Left" Margin="109,172,0,0" VerticalAlignment="Top" Width="163" SelectedIndex="0">
+            <ComboBoxItem Tag="SQL" Content="SQL"></ComboBoxItem>
+            <ComboBoxItem Tag="CSharp" Content="C#"></ComboBoxItem>
+            <ComboBoxItem Tag="CPP" Content="C++"></ComboBoxItem>
+            <ComboBoxItem Tag="VB" Content="Visual Basic"></ComboBoxItem>
+            <ComboBoxItem Tag="XML" Content="XML"></ComboBoxItem>
+            <ComboBoxItem Tag="HTML" Content="HTML"></ComboBoxItem>
+            <ComboBoxItem Tag="JavaScript" Content="JavaScript"></ComboBoxItem>
+        </ComboBox>
+
+        <Label x:Name="codeLabel" Content="Code:" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top" Height="26" Width="41"/>
+        <RichTextBox x:Name="codeRichTextBox" Grid.Row="1" HorizontalAlignment="Left" Height="Auto" Margin="10,0,10,10" VerticalAlignment="Stretch" Width="Auto" VerticalContentAlignment="Stretch" TextChanged="codeRichTextBox_TextChanged" LostFocus="codeRichTextBox_LostFocus" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
@@ -38,18 +72,5 @@
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
-        <Grid HorizontalAlignment="Left" Height="20" VerticalAlignment="Top">
-            <Menu DockPanel.Dock="Top" MinWidth="520">
-                <MenuItem x:Name="fileMenuItem" Header="_File">
-                    <MenuItem x:Name="newMenuItem" Header="_New Snippet" Click="newMenuItem_Click"/>
-                    <MenuItem x:Name="openMenuItem" Header="_Open..." Click="openMenuItem_Click"/>
-                    <MenuItem x:Name="saveMenuItem" Header="_Save..." Click="saveMenuItem_Click"/>
-                    <MenuItem x:Name="quitMenuItem" Header="_Quit" Click="quitMenuItem_Click"/>
-                </MenuItem>
-                <MenuItem x:Name="settingsMenuItem" Header="_Settings">
-                    <MenuItem Header="_Defaults"/>
-                </MenuItem>
-            </Menu>
-        </Grid>
     </Grid>
 </Window>

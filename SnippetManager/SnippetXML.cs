@@ -77,7 +77,7 @@ namespace SnippetManager
 
             snippet.Add(declarations);
 
-            XElement code = new XElement(MicrosoftNs + "Code", new XAttribute("Language", "SQL"));
+            XElement code = new XElement(MicrosoftNs + "Code", new XAttribute("Language", snippetInfo.Language));
             code.ReplaceNodes(new XCData(snippetInfo.Code));
             snippet.Add(code);
             codeSnippet.Add(snippet);
@@ -102,6 +102,8 @@ namespace SnippetManager
             SnippetInfo snippetInfo = new SnippetInfo();
 
             snippetInfo.Code = xml.Descendants(MicrosoftNs + "Code").First().Value;
+
+            snippetInfo.Language = xml.Descendants(MicrosoftNs + "Code").First().Attribute("Language").Value;
 
             XElement declarations = xml.Descendants(MicrosoftNs + "Declarations").First();
 

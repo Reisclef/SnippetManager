@@ -27,11 +27,15 @@ namespace SnippetManager {
 
         public MainWindow() {
             InitializeComponent();
+            literalsDataGrid.ItemsSource = Literals;
         }
 
         #region ClickEvents
 
         private void saveMenuItem_Click(object sender, RoutedEventArgs e) {
+
+            ComboBoxItem selectedLanguage = (ComboBoxItem)languageComboBox.SelectedItem;
+
             SnippetXML xml = new SnippetXML(new HeaderInfo().SetHeaderData(
                 titleTextBox.Text,
                 authorTextBox.Text,
@@ -41,6 +45,7 @@ namespace SnippetManager {
                 new SnippetInfo()
                 .SetDeclarations(literalsDataGrid.ItemsSource.Cast<Literal>())
                 .SetCode(GetRichTextBoxText())
+                .SetLanguage(selectedLanguage.Tag.ToString())
             );
 
             try {
@@ -71,6 +76,7 @@ namespace SnippetManager {
                 authorTextBox.Text = "";
                 expansionRadioButton.IsChecked = true;
                 codeRichTextBox.Document.Blocks.Clear();
+                literalsDataGrid.ItemsSource = new ObservableCollection<Literal>();
                 Changed = false;
             }
         }
@@ -96,6 +102,14 @@ namespace SnippetManager {
                     }
 
                     SnippetInfo snippetInfo = xdoc.GetSnippetInfoFromFile();
+                    
+                    foreach (ComboBoxItem item in languageComboBox.Items) {
+                        if (item.Tag.ToString() == snippetInfo.Language) {
+                            languageComboBox.SelectedItem = item;
+                            break;
+                        }
+                    }
+
                     codeRichTextBox.Document.Blocks.Clear();
                     codeRichTextBox.Document.Blocks.Add(new Paragraph(new Run(snippetInfo.Code)));
                     literalsDataGrid.ItemsSource = snippetInfo.Literals;
@@ -203,7 +217,7 @@ namespace SnippetManager {
                 List<string> toRemove = gridLiterals.Except(currentLiterals).ToList();
 
                 foreach (string addedId in toAdd) {
-                    Literals.Add(new Literal() { Id = addedId });
+                    Literals.Add(new Literal() { Id = addedId, ToolTip = "", DefaultText = "" });
                 }
 
                 foreach (string removedLiteral in toRemove) {

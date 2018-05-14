@@ -47,6 +47,8 @@ namespace SnippetManager
         private List<Literal> literals = new List<Literal>();
         internal List<Literal> Literals { get => literals; set => literals = value; }
 
+        private string language = "";
+        internal string Language { get => language; set => language = value; }
 
         internal SnippetInfo SetCode(string codeFromRichTextBox) {
             code = codeFromRichTextBox;
@@ -55,6 +57,11 @@ namespace SnippetManager
 
         internal SnippetInfo SetDeclarations(IEnumerable<Literal> literalData) {
             literals = literalData.ToList();
+            return this;
+        }
+
+        internal SnippetInfo SetLanguage(string languageFromComboBox) {
+            language = languageFromComboBox;
             return this;
         }
     }
